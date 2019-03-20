@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    template="../templates/template.xhtml">
+    <ui:param name="pageTitle" value="Add an employee"/>
+    <ui:define name="header">
+        Add an employee
+    </ui:define>
+    <ui:define name="navigation">
+        <!--div class="col-md-2 well">
+            <ul class="nav nav-list">
+                <li><h3><h:link value="Employees">
+                </h:link></h3>
+                </li>
+            </ul>
+        </div-->
+    </ui:define>
+    <ui:define name="main">
+        <h:form>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Create an employee</h3>
+                </div>
+                <div class="panel-body">
+                    <h:panelGrid columns="3">
+                        <h:outputText value="Username :"/>
+                        <h:inputText class="form-control" id="username" value="#{employeeController.newEmployee.username}"/>
+                        <h:message for="username" style="color: red;"/>
+                        
+                        <h:outputText value="Password :"/>
+                        <h:inputSecret id="password" class="form-control" value="#{employeeController.newEmployee.password}"/>
+                        <h:message for="password" style="color: red;"/>
+                        
+                        <h:outputText value="First Name:"/>
+                        <h:inputText class="form-control" id="firstName" value="#{employeeController.newEmployee.firstname}"/>
+                        <h:message for="firstName" style="color: red;"/>
+
+                        <h:outputText value="Last Name :"/>
+                        <h:inputText class="form-control" id="lastName" value="#{employeeController.newEmployee.lastname}"/>
+                        <h:message for="lastName" style="color: red;"/>
+
+                        <h:outputText value="Email :"/>
+                        <h:inputText class="form-control" id="email" value="#{employeeController.newEmployee.email}"/>
+                        <h:message for="email" style="color: red;"/>
+                        
+                        <h:outputText value="Birthday :"/>
+                        <p:inputText class="form-control" id="birthday" placeholder="yyyy-mm-dd" value="#{employeeController.newEmployee.birdthday}">
+                            <f:converter converterId="rmtDateConverter"/>
+                        </p:inputText>
+                        <h:message for="birthday" style="color: red;display:none;"/>
+                    </h:panelGrid>
+                </div>
+            </div>           
+
+            <div>
+                <p:commandButton value="Create" action="#{employeeController.doCreateEmployee()}" update = ":messageForm:globalMessages"
+                                 type="submit" class="btn btn-primary"/>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

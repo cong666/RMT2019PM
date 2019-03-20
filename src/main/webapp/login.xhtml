@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    template="templates/template.xhtml">
+    <ui:param name="pageTitle" value="login"/>
+    <ui:define name="header">
+        #{lang.login}
+    </ui:define>
+    <ui:define name="navigation">
+        <!--div class="col-md-2 well">
+            <ul class="nav nav-list">
+                <li><h3><h:link value="Jobs">
+                    <f:param name="Job" value="Job"/>
+                </h:link></h3>
+                </li>
+            </ul>
+        </div-->
+    </ui:define>
+    <ui:define name="main">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">#{lang.you_are_already_client}</h3>
+            </div>
+            <div class="panel-body">
+                <h:form>
+                    <h:panelGrid columns="3">
+                        <h:outputLabel value="#{lang.user} : " for="login"/>
+                        <h:inputText id="login" class="form-control"
+                                     value="#{rmtUserController.user.username}" maxlength="10" size="12"/>
+                        <h:message for="login" style="color: red;"/>
+                        <h:outputLabel value="#{lang.password} : " for="password"/>
+                        <h:inputSecret id="password" class="form-control"
+                                       value="#{rmtUserController.user.password}" maxlength="10" size="12"/>
+                        <h:message for="password" style="color: red;"/>
+                    </h:panelGrid>
+                    <h:commandButton value="#{lang.login}" action="#{rmtUserController.doLogin()}" class="btn btn-primary"
+                                     type="submit"/>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

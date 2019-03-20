@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    template="../templates/template.xhtml">
+    <ui:param name="pageTitle" value="Manager"/>
+    <ui:define name="header">
+        Hello #{rmtUserController.loginUser.username}
+    </ui:define>
+    <ui:define name="navigation">
+        <!--div class="col-md-2 well">
+            <ul class="nav nav-list">
+                <li>
+                    <h3>
+                        <h:link value="" outcome=""></h:link>
+                    </h3>
+                </li>
+            </ul>
+        </div-->
+    </ui:define>
+    <ui:define name="main">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">WorkTimes</h3>
+            </div>
+            <div class="panel-body">
+                <h:form id="wtForm">
+                    <p:dataTable id="wtTable" value="#{employeeController.wtDataModel}" var="wt"
+                                 widgetVar="wtWidget" editable="true"
+                                 paginator="true" rows="10" paginatorPosition="bottom" lazy="true"
+                                 rowsPerPageTemplate="10,30,50" rowKey="#{wt.id}">
+                        <p:ajax event="rowEdit" listener="#{employeeController.onEdit}" update=":messageForm:globalMessages,wtTable"/>
+                        <p:ajax event="rowEditCancel" listener="#{employeeController.onCancel}" update=":messageForm:globalMessages,wtTable"/>
+                        <p:column>
+                            <f:facet name="header">Id</f:facet>
+                            <h:outputText value="#{wt.id}"/>
+                        </p:column>
+                        <p:column headerText="Start Time" sortBy="#{wt.startTime}">
+                            <p:cellEditor>  
+                                <f:facet name="output">
+                                    <h:outputText value="#{wt.startTime}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
+                                    </h:outputText>
+                                </f:facet>  
+                                <f:facet name="input">
+                                    <p:inputText value="#{wt.startTime}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
+                                    </p:inputText>
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+                        <p:column headerText="End Time" sortBy="#{wt.endTime}">
+                            <p:cellEditor>  
+                                <f:facet name="output">
+                                    <h:outputText value="#{wt.endTime}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
+                                    </h:outputText>
+                                </f:facet>  
+                                <f:facet name="input">
+                                    <p:inputText value="#{wt.endTime}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
+                                    </p:inputText>
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+                        <p:column filterBy="#{wt.client.name}">
+                            <f:facet name="header">Client</f:facet>
+                            <h:outputText value="#{wt.client.name}"/>
+                        </p:column>
+                        
+                        <p:column headerText="Action">
+                            <p:rowEditor />
+                            <p:commandLink id="deleteWorkTimeButton" styleClass="ui-icon ui-icon-trash" style="float:right;margin-top:-16px;"
+                                           update=":messageForm:globalMessages,wtTable" value="Delete"
+                                             actionListener="#{workTimeController.deleteWorkTime(wt)}"> 
+                                <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" message="Are you sure to delete the WorkTime ?">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                    <div class="form-actions">
+                        <h:commandButton action="add_worktime?faces-redirect=true" class="btn btn-primary" value="Add a worktime"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+

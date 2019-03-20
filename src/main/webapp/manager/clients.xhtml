@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    template="../templates/template.xhtml">
+    <ui:param name="pageTitle" value="Manager"/>
+    <ui:define name="header">
+        Hello #{rmtUserController.loginUser.username}
+    </ui:define>
+    <ui:define name="navigation">
+        <div class="col-md-2 well">
+            <ul class="nav nav-list">
+                <li><h3><h:link value="Manager Home" outcome="manager_home?faces-redirect=true">
+                </h:link></h3>
+                </li>
+            </ul>
+        </div>
+    </ui:define>
+    <ui:define name="main">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Clients</h3>
+            </div>
+            <div class="panel-body">
+                <h:form id="clientForm">
+                    <p:dataTable id="clientTable" value="#{clientController.clientDataModel}" var="client"
+                                 widgetVar="clientWidget" editable="true"
+                                 paginator="true" rows="10" paginatorPosition="bottom" lazy="true"
+                                 rowsPerPageTemplate="10,30,50" rowKey="#{client.id}">
+                        <p:ajax event="rowEdit" listener="#{clientController.onEdit}" update=":messageForm:globalMessages,clientTable"/>
+                        <p:ajax event="rowEditCancel" listener="#{clientController.onCancel}" update=":messageForm:globalMessages,clientTable"/>
+                        <p:column>
+                            <f:facet name="header">Id</f:facet>
+                            <h:outputText value="#{client.id}"/>
+                        </p:column>
+                        <p:column headerText="Name" sortBy="#{client.name}" filterBy="#{client.name}">
+                            <p:cellEditor>  
+                                <f:facet name="output"><h:outputText value="#{client.name}" /></f:facet>  
+                                <f:facet name="input"><p:inputText value="#{client.name}"/></f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+                        
+                        <p:column headerText="Action">
+                            <p:rowEditor />
+                            <p:commandLink id="deleteClientButton" styleClass="ui-icon ui-icon-trash" style="float:right;margin-top:-16px;" update=":messageForm:globalMessages,clientTable" value="Delete"
+                                             actionListener="#{clientController.deleteClient(client)}"> 
+                                <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" message="Are you sure to delete the client ?">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                    <div class="form-actions">
+                        <h:commandButton action="add_client?faces-redirect=true" class="btn btn-primary" value="Add a client"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+

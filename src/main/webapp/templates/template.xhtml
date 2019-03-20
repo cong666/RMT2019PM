@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html" encoding="UTF-8">
+
+        <!--HEAD-->
+        <h:head>
+            <title>#{empty pageTitle ? 'Page Title' : pageTitle}</title>
+
+            <meta charset="utf-8"/>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+            <meta name="description" content=""/>
+            <meta name="author" content=""/>
+
+            <!-- Bootstrap core CSS -->
+            <h:outputStylesheet name="bootstrap/css/bootstrap.min.css"/>
+            
+            <h:outputStylesheet name="css/style.css"/>
+            <h:outputStylesheet name="css/sticky-footer-navbar.css"/>
+            <f:view locale="#{localeBean.locale}"/>
+        </h:head>
+
+        <!--BODY-->
+        <h:body>
+
+            <!-- Wrap all page content here -->
+            <div id="wrap">
+
+                <!-- Fixed navbar -->
+                <h:form id = "mainForm">
+                    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+                        <div class="container">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                        data-target=".navbar-collapse">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <h:link class="navbar-brand" value="RMT 2019">
+                                    <!--<f:param name="cid" value=""/>-->
+                                </h:link>
+                            </div>
+
+                            <div class="collapse navbar-collapse">
+                                <ul class="nav navbar-nav">
+                                    <li>
+                                        <h:link value="#{rmtUserController.loginUser.username}"/>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            #{lang.language}
+                                            <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <h:commandLink styleClass="menu-fr" action="#{localeBean.setLanguage('fr')}"
+                                                               immediate="true">
+                                                    <f:ajax render="@form"/>
+                                                    <h:outputText value="French"/>
+                                                </h:commandLink>
+                                            </li>
+                                            <li>
+                                                <h:commandLink styleClass="menu-en" action="#{localeBean.setLanguage('en')}"
+                                                               immediate="true">
+                                                    <f:ajax render="@form"/>
+                                                    <h:outputText value="English"/>
+                                                </h:commandLink>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li>
+                                        <!--<i class="icon-user icon-white"></i>-->
+                                        <h:link value="Welcome"
+                                                rendered="false">
+                                            <!--<f:param name="cid" value=""/>-->
+                                        </h:link>
+                                    </li>
+                                    <li>
+                                        <!--<i class="icon-off icon-white"></i>-->
+                                        <h:commandLink rendered="false">
+                                            <h:outputText value="Logout"/>
+                                        </h:commandLink>
+                                    </li>
+                                    <li>
+                                        <!--<i class="icon-eye-open icon-white"></i>-->
+                                        <h:link value="Login" outcome="login?face-redirect=true"
+                                                rendered="#{rmtUserController.loginUser.username==null}">
+                                            <!--<f:param name="cid" value=""/>-->
+                                        </h:link>
+                                        <h:commandLink value="Logout" actionListener="#{rmtUserController.doLogout()}" 
+                                                rendered="#{rmtUserController.loginUser.username!=null}">
+                                            <!--<f:param name="cid" value=""/>-->
+                                        </h:commandLink>
+                                    </li>
+
+                                    <li>
+                                        <div class="navbar-form navbar-left" role="search">
+                                            <div class="form-group">
+                                                <h:inputText class="form-control"/>
+                                            </div>
+                                            <h:commandButton value="Search"
+                                                             class="btn btn-default"/>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!--/.nav-collapse -->
+                        </div>
+                    </div>
+                </h:form>
+
+                <!-- Begin page content -->
+                <div class="container">
+                    <div class="page-header">
+                        <!-- Error messages-->
+                        <h:form id = "messageForm">
+                            <p:messages globalOnly="true" id="globalMessages" showDetail="false" showSummary="true">
+                            </p:messages>
+                        </h:form>
+                    </div>
+
+                    <ui:insert name="navigation">Default navigation</ui:insert>
+
+                    <!-- CONTENT -->
+                    <div class="col-md-1"/>
+                    <div class="col-md-9 well">
+                        <h2><ui:insert name="header"/></h2>
+
+                        <h3><ui:insert name="subheader"/></h3>
+
+                        <ui:insert name="main"/>
+                    </div>
+                    <!--/.CONTENT -->
+
+                </div>
+            </div>
+
+            <div id="footer">
+                <div class="container">
+                    <div class="col-md-2 centered-text">
+                        <a href="">RMT 2019</a>
+                    </div>
+                    <div class="col-md-8"/>
+                    <div class="col-md-2 centered-text">
+                        <a href="">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Bootstrap core JavaScript Placed at the end of the document so the pages load faster -->
+            <!--h:outputScript name="bootstrap/js/jquery-2.2.4.min.js"/ use the jquery of primefaces-->
+            <h:outputScript name="bootstrap/js/bootstrap.min.js"/>
+        </h:body>
+    </f:view>
+</html>

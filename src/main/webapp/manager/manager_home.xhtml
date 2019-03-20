@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    template="../templates/template.xhtml">
+    <ui:param name="pageTitle" value="Manager"/>
+    <ui:define name="header">
+        #{lang.hello} #{rmtUserController.loginUser.username}
+    </ui:define>
+    <ui:define name="navigation">
+        <div class="col-md-2 well">
+            <ul class="nav nav-list">
+                <li>
+                    <h3>
+                        <h:link value="Clients" outcome="clients?faces-redirect=true"></h:link>
+                    </h3>
+                </li>
+            </ul>
+        </div>
+    </ui:define>
+    <ui:define name="main">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Employees</h3>
+            </div>
+            <div class="panel-body">
+                <h:form id="managerForm">
+                    <p:dataTable id="employeeTable" value="#{managerController.employeeDataModel}" var="employee"
+                                 widgetVar="employeeWidget" editable="true"
+                                 paginator="true" rows="10" paginatorPosition="bottom" lazy="true"
+                                 rowsPerPageTemplate="10,30,50" rowKey="#{employee.id}">
+                        <p:ajax event="rowEdit" listener="#{managerController.onEdit}" update=":messageForm:globalMessages,employeeTable"/>
+                        <p:ajax event="rowEditCancel" listener="#{managerController.onCancel}" update=":messageForm:globalMessages,employeeTable"/>
+                        <p:column>
+                            <f:facet name="header">Id</f:facet>
+                            <h:outputText value="#{employee.id}"/>
+                        </p:column>
+                        <p:column headerText="User Name" sortBy="#{employee.username}" filterBy="#{employee.username}">
+                            <p:cellEditor>  
+                                <f:facet name="output"><h:outputText value="#{employee.username}" /></f:facet>  
+                                <f:facet name="input"><p:inputText value="#{employee.username}"/></f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+                        <p:column headerText="First Name">
+                            <p:cellEditor>  
+                                <f:facet name="output"><h:outputText value="#{employee.firstname}" /></f:facet>  
+                                <f:facet name="input"><p:inputText value="#{employee.firstname}"/></f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+                        <p:column headerText="Last Name">
+                            <p:cellEditor>  
+                                <f:facet name="output"><h:outputText value="#{employee.lastname}" /></f:facet>  
+                                <f:facet name="input"><p:inputText value="#{employee.lastname}"/></f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+                        <p:column headerText="Email" style="width:15%;" filterBy="#{employee.email}">
+                            <p:cellEditor>  
+                                <f:facet name="output"><h:outputText value="#{employee.email}" /></f:facet>  
+                                <f:facet name="input"><p:inputText value="#{employee.email}"/></f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+                        <p:column headerText="Birthday">
+                            <p:cellEditor>  
+                                <f:facet name="output">
+                                    <h:outputText value="#{employee.birdthday}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
+                                    </h:outputText>
+                                </f:facet>  
+                                <f:facet name="input">
+                                    <p:inputText value="#{employee.birdthday}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
+                                    </p:inputText>
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+                        <p:column headerText="Action">
+                            <p:rowEditor />
+                            <p:commandLink id="deleteEmployeeButton" styleClass="ui-icon ui-icon-trash" style="float:right;margin-top:-16px;" update=":messageForm:globalMessages,employeeTable" value="Delete"
+                                             actionListener="#{managerController.deleteEmployee(employee)}"> 
+                                <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" message="Are you sure to delete the employee ?">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                    <div class="form-actions"> 
+                        <h:commandButton class="btn btn-primary" action="add_employee?faces-redirect=true" value="Add an employee"/>
+                    </div>
+                    
+                </h:form>
+                
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+
