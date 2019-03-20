@@ -25,6 +25,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
 
@@ -99,6 +100,7 @@ public class EmployeeController implements Serializable {
         if(manager.getId() == null) {
             return "login?faces-redirect=true";
         }
+        newEmployee.setPassword(DigestUtils.sha1Hex(newEmployee.getPassword()));
         newEmployee.setManager(manager);
         employeeService.createEmployee(newEmployee);
         manager.getEmployees().add(newEmployee);

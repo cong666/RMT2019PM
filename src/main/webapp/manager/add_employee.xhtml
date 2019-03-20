@@ -45,7 +45,9 @@
                         <h:message for="lastName" style="color: red;"/>
 
                         <h:outputText value="Email :"/>
-                        <h:inputText class="form-control" id="email" value="#{employeeController.newEmployee.email}"/>
+                        <h:inputText class="form-control" id="email" value="#{employeeController.newEmployee.email}">
+                            <f:validator validatorId="emailValidator"/>
+                        </h:inputText>
                         <h:message for="email" style="color: red;"/>
                         
                         <h:outputText value="Birthday :"/>

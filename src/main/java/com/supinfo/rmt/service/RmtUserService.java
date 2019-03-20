@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *
@@ -29,7 +30,8 @@ public class RmtUserService implements Serializable {
     public RmtUser authenticate(RmtUser user) {
         Map<String,Object> queryParams = new HashMap<>();
         queryParams.put("username", user.getUsername());
-        queryParams.put("password", user.getPassword());
+        String passHashed = DigestUtils.sha1Hex(user.getPassword());
+        queryParams.put("password", passHashed);
         List<RmtUser> users = rmtUserDao.findWhereEqualsMultiAttributes(queryParams.entrySet(), true);
         if (users==null || users.isEmpty()
                 || users.size() > 1) {

@@ -25,6 +25,10 @@ public class ManagerService {
 
     @EJB
     private ManagerDao managerDao;
+    
+    public void createManager(Manager manager) {
+        managerDao.create(manager);
+    }
 
     public List<Employee> findAllEmployees(Manager manager) {
         List<Employee> users = employeeDao.findWhereEquals("manager", manager);
@@ -33,6 +37,10 @@ public class ManagerService {
 
     public void updateManager(Manager manager) {
         managerDao.update(manager);
+    }
+    
+    public List<Manager> findByUserName(String userName) {
+        return managerDao.findWhereEquals("username", userName);
     }
 
 }
