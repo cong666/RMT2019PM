@@ -110,7 +110,7 @@ public class EmployeeFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest)request;
         HttpServletResponse httpResponse = (HttpServletResponse)response;
         HttpSession session = httpServletRequest.getSession();
-        RmtUser user = (RmtUser)session.getAttribute("LOGIN_EMPLOYEE");
+        RmtUser user = (RmtUser)session.getAttribute("login");
         if(user == null || !(user instanceof Employee)) {
             httpResponse.sendRedirect(httpServletRequest.getContextPath()+"/login.xhtml");
         }

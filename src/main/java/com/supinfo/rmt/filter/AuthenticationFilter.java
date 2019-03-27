@@ -28,33 +28,34 @@ import javax.servlet.http.HttpSession;
  * @author ccong
  */
 public class AuthenticationFilter implements Filter {
-
+        
+   
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse)response;
+        HttpServletRequest httpRequest = (HttpServletRequest)request;
+        HttpSession session = httpRequest.getSession();
         System.out.println("AuthenticationFilter");
-        String userType = (String) httpRequest.getParameter("userType");
-        if (userType == null || userType.isEmpty()) {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.xhtml");
-            return;
+        RmtUser user = (RmtUser)session.getAttribute("login");
+        if(user== null) {
+            httpResponse.sendRedirect(httpRequest.getContextPath()+"/login.xhtml");
         }
-        if (userType.equals("EMPLOYEE")) {
+        if(user instanceof Employee) {
             httpResponse.sendRedirect("employee/employee_home.xhtml");
-        } else if (userType.equals("MANAGER")) {
+        } else if(user instanceof Manager) {
             httpResponse.sendRedirect("manager/manager_home.xhtml");
-        }
+        }      
     }
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        
     }
 
     @Override
     public void destroy() {
-
+        
     }
 }
