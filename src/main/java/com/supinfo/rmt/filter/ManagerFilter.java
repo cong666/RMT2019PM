@@ -106,7 +106,7 @@ public class ManagerFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest)request;
         HttpSession session = httpRequest.getSession();
         System.out.println("ManagerFilter");
-        RmtUser user = (RmtUser)session.getAttribute("login");
+        RmtUser user = (RmtUser)session.getAttribute("LOGIN_MANAGER");
         if(user== null || !(user instanceof Manager)) {
             httpResponse.sendRedirect(httpRequest.getContextPath()+"/login.xhtml");
         }
